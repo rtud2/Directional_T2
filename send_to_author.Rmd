@@ -9,10 +9,10 @@ output: pdf_document
 
 ## Follmann's method
 
-recreating author example. Numbers are a little different than mine, but they're close.
+Recreating author example. Numbers are a little different than mine, but they're close. (Edit: Confirmed with Glimm, these are correct)
 
-  * F-stat off due to rounding?
-  * Isn't p-value supposed to be halved? since they double their significance level (e.g. if $\alpha = 0.05$, they would look for $2\alpha$, that's why it's under the subscript.)
+  * F-stat off due to rounding
+  * p-value is supposed to be halved since they double their significance level (e.g. if $\alpha = 0.05$, they would look for $2\alpha$, that's why it's under the subscript.)
 
 ```{R}
 mean_diff <- matrix(c(0.35, - 2.4, -19.4), nrow = 1)
@@ -36,7 +36,7 @@ Authors F-stat is 5.37 and corresponding p-value of 0.0024, which is the result 
 ```{R}
 pf(5.37, 3, 60, lower.tail = F)
 ```
-But shouldn't this p-value effectively be divide by 2 since the significance level is doubled?
+But this p-value should be divide by 2 since the significance level is doubled (Confirmed with Author)
 
 
 ## Glimm's Method 
