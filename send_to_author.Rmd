@@ -1,0 +1,66 @@
+---
+title: "recreate example"
+author: "Robin Tu"
+date: "10/24/2020"
+output: pdf_document
+---
+
+# Section 6 example
+
+## Follmann's method
+
+recreating author example. Numbers are a little different than mine, but they're close.
+
+  * F-stat off due to rounding?
+  * Isn't p-value supposed to be halved? since they double their significance level (e.g. if $\alpha = 0.05$, they would look for $2\alpha$, that's why it's under the subscript.)
+
+```{R}
+mean_diff <- matrix(c(0.35, - 2.4, -19.4), nrow = 1)
+new <- matrix(c(0.38, 17, 43, 17, 2763, 3257, 43, 3257, 12042), nrow = 3)
+old <- matrix( c(.17, 8.4, 20, 8.4, 2752, 2043, 20, 2043, 7572), nrow = 3) 
+
+my_pool_cov <- (31*new + 31*old)/(62)
+author_pool_cov <- matrix(c(0.27, 12.7, 32, 12.7, 2758, 2758, 32, 2650, 9807),nrow = 3)
+
+c <- (32 + 32 - 3 - 1)/(3 * (32 + 32 -1)) * (32*32)/(32+32)
+my_stat <-  c * mean_diff %*% solve(my_pool_cov) %*% t(mean_diff)
+author_stat <-c * mean_diff %*% solve(author_pool_cov) %*% t(mean_diff)
+
+c(my_stat, author_stat)
+
+pf(c(my_stat, author_stat), 3, 60, lower.tail = F)
+```
+
+Authors F-stat is 5.37 and corresponding p-value of 0.0024, which is the result from :
+
+```{R}
+pf(5.37, 3, 60, lower.tail = F)
+```
+But shouldn't this p-value effectively be divide by 2 since the significance level is doubled?
+
+
+## Glimm's Method 
+
+```{r}
+min_mu_obj <- function(mu, G, mean_diff){
+x_bar <- matrix(mu, nrow = 1)  - mean_diff 
+(32 + 32 - 3 - 1)/(3 * (32 + 32 -1)) * (32*32)/(32+32) * x_bar %*% solve(G) %*% t(x_bar)
+}
+
+ex_val <- optim(par = rep(0,3),
+                fn = min_mu_obj,
+                upper = rep(0,3),
+                method = "L-BFGS-B",
+                mean_diff = mean_diff,
+                G = my_pool_cov)
+
+#output of the optimization function (minimized when mu = par)
+ex_val
+
+#p-value
+pf(ex_val$value, df1 = 3,df2 =  32+32-3-1, lower.tail = F)
+```
+
+These results basically match, who found optimal value of (0, -18.4, -59.5) and a F-statistic of 2.27, with corresponding p-value of 0.0447. Here the p-value is halved.
+
+
