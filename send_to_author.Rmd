@@ -1,5 +1,5 @@
 ---
-title: "recreate example"
+title: "Osteoporosis Example"
 author: "Robin Tu"
 date: "10/24/2020"
 output: pdf_document
@@ -7,10 +7,28 @@ output: pdf_document
 
 # Section 6 example
 
+```
+In a phase II clinical trial on an osteoporosis drug with two treatment groups (treatment and
+control), it was initially unclear whether the benefit of a new treatment over standard treatment
+would primarily be:
+    (i) physiologic improvement of the knee, measured by joint space width (JSW) in mm,
+    (ii) better pain relief, measured by a pain score, or
+    (iii) better functional ability, measured by a function score.
+Thus, the focus of this phase II trial was to establish a benefit in at least one of these indicators. A
+future phase III trial would then focus on the most promising variables.
+```
+Here, the hypothesis of interest is:
+
+\begin{align*}
+H_0: \mu_{new} &= \mu_{control}\\
+H_1: \mu_{new} &> \mu_{control}\\
+\end{align*}
+
 ## Follmann's method
 
-Recreating author example. Numbers are a little different than mine, but they're close. (Edit: Confirmed with Glimm, these are correct)
+Recreating author osteoporosis example (section 6). Numbers are a little different than mine, but they're close. (Edit: Confirmed with Glimm, these are correct).
 
+Note:
   * F-stat off due to rounding
   * p-value is supposed to be halved since they double their significance level (e.g. if $\alpha = 0.05$, they would look for $2\alpha$, that's why it's under the subscript.)
 
@@ -24,7 +42,7 @@ author_pool_cov <- matrix(c(0.27, 12.7, 32, 12.7, 2758, 2758, 32, 2650, 9807),nr
 
 c <- (32 + 32 - 3 - 1)/(3 * (32 + 32 -1)) * (32*32)/(32+32)
 my_stat <-  c * mean_diff %*% solve(my_pool_cov) %*% t(mean_diff)
-author_stat <-c * mean_diff %*% solve(author_pool_cov) %*% t(mean_diff)
+author_stat <- c * mean_diff %*% solve(author_pool_cov) %*% t(mean_diff)
 
 c(my_stat, author_stat)
 
