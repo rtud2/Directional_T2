@@ -54,20 +54,20 @@ directional_t2 <- function( x, y, method = "glimm", direction = "greater") {
                         p = 3,
                         C = C)
 
-        list(negative.orthant = ex_val$par,
-             mean.diff = mean_diff,
-             t.2 = ex_val$value,
-             df1 = p, 
-             df2 = n1 + n2 - p -1,
-             p.value = pf(ex_val$value, df1 = p, df2 =  n1 + n2 - p - 1, lower.tail = F)/2)
+        return(list(negative.orthant = ex_val$par,
+                    mean.diff = mean_diff,
+                    t.2 = ex_val$value,
+                    df1 = p, 
+                    df2 = n1 + n2 - p -1,
+                    p.value = pf(ex_val$value, df1 = p, df2 =  n1 + n2 - p - 1, lower.tail = F)/2))
 
     } else if (method == "follmann"){
         my_stat <-  C * mean_diff %*% solve(pooled_cov) %*% t(mean_diff)
-        list(mean.diff = mean_diff,
-             t.2 = my_stat,
-             df1 = p,
-             df2 =  n1 + n2 - p - 1,
-             p.value = pf(my_stat, df1 = p, df2 =  n1 + n2 - p - 1, lower.tail = F)/2)
+        return(list(mean.diff = mean_diff,
+                    t.2 = my_stat,
+                    df1 = p,
+                    df2 =  n1 + n2 - p - 1,
+                    p.value = pf(my_stat, df1 = p, df2 =  n1 + n2 - p - 1, lower.tail = F)/2))
 
     } else {
         stop(paste0("method = ", method," is invalid"))
