@@ -29,6 +29,7 @@ H_1: \mu_{new} &> \mu_{control}\\
 Recreating author osteoporosis example (section 6). Numbers are a little different than mine, but they're close. (Edit: Confirmed with Glimm, these are correct).
 
 Note:
+
   * F-stat off due to rounding
   * p-value is supposed to be halved since they double their significance level (e.g. if $\alpha = 0.05$, they would look for $2\alpha$, that's why it's under the subscript.)
 
